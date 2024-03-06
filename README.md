@@ -1,7 +1,7 @@
 ## Technologies Used
 
 - NodeJS v20.11.1
-- Express v4.18.1
+- Express v4.18.3
 - Passport JWT / Local
 - Postgres Client ('pg')
 <br><br>
