@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import passport from "passport";
+import { passportUseLocal, passportUseJWT } from "./Config/passportStrats.js";
 import { apiRouter } from "./Routers/apiRouter.js";
 import { authRouter } from "./Routers/authRouter.js";
 
@@ -12,6 +14,13 @@ const PORT = process.env.PORT || 4000;
 
 // Add middleware for handling CORS requests from index.html
 serverApp.use(cors());
+
+// Pass the global passport object into the configuration function
+passportUseLocal();
+passportUseJWT();
+
+// This will initialize the passport object on every request
+serverApp.use(passport.initialize());
 
 // Add middware for parsing request bodies:
 serverApp.use(express.json());
