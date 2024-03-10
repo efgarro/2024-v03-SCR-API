@@ -1,8 +1,13 @@
-const express = require("express");
-const serverApp = express();
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { apiRouter } from "./Routers/apiRouter.js";
+import { authRouter } from "./Routers/authRouter.js";
 
-require("dotenv").config();
+const serverApp = express();
+dotenv.config();
+
+// require("dotenv").config();
 const PORT = process.env.PORT || 4000;
 
 // Add middleware for handling CORS requests from index.html
@@ -12,9 +17,9 @@ serverApp.use(cors());
 serverApp.use(express.json());
 serverApp.use(express.urlencoded({ extended: false }));
 
-serverApp.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// Mount routers
+serverApp.use("/", authRouter);
+serverApp.use("/", apiRouter);
 
 serverApp.use((err, req, res, next) => {
   console.error(err.stack);
