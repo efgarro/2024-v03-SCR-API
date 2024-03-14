@@ -2,8 +2,10 @@
 
 - NodeJS v20.11.1
 - Express v4.18.3
-- Passport JWT / Local
+- Passport JWT / Local Auth
 - Postgres Client ('pg')
+- Multer / Multer S3
+
 <br><br>
 ~~~
 git init
