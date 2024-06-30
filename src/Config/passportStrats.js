@@ -7,8 +7,8 @@ import passportLocal from "passport-local";
 import passportJWT from "passport-jwt";
 import { validatePassword } from "../Utils/utils.js";
 
-import * as url from 'url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 const LocalStrategy = passportLocal.Strategy;
 const JWTStrategy = passportJWT.Strategy;
@@ -23,11 +23,10 @@ const customFields = {
 };
 
 const localVerifyCB = (email, password, done) => {
-  db
-    .query(
-      `SELECT user_id, email, hash, salt FROM scr_users WHERE email = $1`,
-      [email]
-    )
+  db.query(
+    `SELECT user_id, email, hash, salt FROM scr_users WHERE email = $1`,
+    [email]
+  )
     .then(({ rows }) => {
       const user = rows[0];
       if (!user) {
@@ -43,11 +42,13 @@ const localVerifyCB = (email, password, done) => {
       }
     })
     .catch((err) => {
+      console.log(`here${err}`);
       done(err);
     });
 };
 
-export const passportUseLocal = () => passport.use(new LocalStrategy(customFields, localVerifyCB));
+export const passportUseLocal = () =>
+  passport.use(new LocalStrategy(customFields, localVerifyCB));
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -56,11 +57,10 @@ const jwtOptions = {
 };
 
 const jwtVerifyCB = (payload, done) => {
-  db
-    .query(
-      `SELECT user_id, email, hash, salt FROM scr_users WHERE user_id = $1`,
-      [payload.sub]
-    )
+  db.query(
+    `SELECT user_id, email, hash, salt FROM scr_users WHERE user_id = $1`,
+    [payload.sub]
+  )
     .then(({ rows }) => {
       const user = rows[0];
       if (user) {
@@ -72,4 +72,5 @@ const jwtVerifyCB = (payload, done) => {
     .catch((err) => done(err, null));
 };
 
-export const passportUseJWT = () => passport.use(new JWTStrategy(jwtOptions, jwtVerifyCB));
+export const passportUseJWT = () =>
+  passport.use(new JWTStrategy(jwtOptions, jwtVerifyCB));

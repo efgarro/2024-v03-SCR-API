@@ -5,12 +5,15 @@ import passport from "passport";
 import { passportUseLocal, passportUseJWT } from "./Config/passportStrats.js";
 import { apiRouter } from "./Routers/apiRouter.js";
 import { authRouter } from "./Routers/authRouter.js";
+import { cognitoAuthRouter } from "./Routers/cognitoAuthRouter.js";
 
 const serverApp = express();
 dotenv.config();
 
 // require("dotenv").config();
 const PORT = process.env.PORT || 4000;
+
+// serverApp.use(express.static('public'));
 
 // Add middleware for handling CORS requests from index.html
 serverApp.use(cors());
@@ -29,6 +32,7 @@ serverApp.use(express.urlencoded({ extended: false }));
 // Mount routers
 serverApp.use("/", authRouter);
 serverApp.use("/", apiRouter);
+serverApp.use("/", cognitoAuthRouter);
 
 serverApp.use((err, req, res, next) => {
   console.error(err.stack);

@@ -2,8 +2,8 @@ import crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
-import * as url from 'url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 const pathToKey = path.join(__dirname, "..", "id_rsa_priv.pem");
 const PRIV_KEY = fs.readFileSync(pathToKey, "utf8");
@@ -56,7 +56,7 @@ export function generatePassword(password) {
 export function issueJWT(user) {
   const user_id = user.user_id;
 
-  const expiresIn = "7d";
+  const expiresIn = 2;
 
   const payload = {
     sub: user_id,
